@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import { SectionHeader } from '../common/SectionHeader';
@@ -10,8 +10,25 @@ export const OurAchievements: React.FC = () => {
   const items = startupsState?.items ?? [];
 
   return (
-    <section className="gsap-section-reveal py-24 bg-mint/20 border-b-4 border-black relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    <section className="gsap-section-reveal py-24 bg-mint/20 border-b-4 border-black relative overflow-hidden">
+      {/* Unique Pattern Texture: Isometric Blueprint Grid */}
+      <div className="absolute inset-0 bg-pattern-isometric-grid pointer-events-none opacity-50 z-0" />
+
+      {/* Floating Star and Cube Memphis Elements */}
+      <div className="hidden lg:block absolute left-8 top-16 pointer-events-none z-0 animate-hero-spin-slow opacity-30">
+        <svg width="50" height="50" viewBox="0 0 100 100">
+          <path d="M50 0 L60 38 L98 50 L60 62 L50 100 L40 62 L2 50 L40 38 Z" fill="#FFD166" stroke="#000" strokeWidth="4"/>
+        </svg>
+      </div>
+
+      {/* Bottom Wave Divider */}
+      <div className="absolute bottom-0 left-0 right-0 overflow-hidden leading-none pointer-events-none z-0 opacity-25">
+        <svg className="w-full h-12" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0 C300,90 600,-40 900,60 C1050,110 1150,40 1200,60 L1200,120 L0,120 Z" fill="#0077B6" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
         <SectionHeader
           badge="Track Record"
           title="Our Achievements"

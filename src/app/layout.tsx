@@ -1,9 +1,11 @@
-﻿import type { Metadata } from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
 import StoreProvider from './StoreProvider';
 import { Navbar } from '@/components/layout/Navbar';
 import { MobileMenu } from '@/components/layout/MobileMenu';
 import { Footer } from '@/components/layout/Footer';
+import { AuthModal } from '@/components/common/AuthModal';
+import { RegistrationResumeBanner } from '@/components/events/RegistrationResumeBanner';
 
 export const metadata: Metadata = {
   title: 'E-Cell HIT Haldia | Spirit of Innovation',
@@ -22,7 +24,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StoreProvider>
           <Navbar />
           <MobileMenu />
-          <main className="min-h-screen">{children}</main>
+          <AuthModal />
+          <div className="pt-20">
+            <RegistrationResumeBanner />
+          </div>
+          <main className="min-h-screen -mt-20">{children}</main>
           <Footer />
         </StoreProvider>
       </body>

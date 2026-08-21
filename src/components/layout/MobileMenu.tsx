@@ -1,12 +1,12 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { closeMobileMenu } from '@/store/slices/uiSlice';
+import { closeMobileMenu, setActiveModal } from '@/store/slices/uiSlice';
 import { MemphisButton } from '../common/MemphisButton';
-import { LogIn, X, Zap } from 'lucide-react';
+import { LogIn, X, Zap, User } from 'lucide-react';
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -14,17 +14,17 @@ const navItems = [
   { label: 'Event', href: '/events' },
   { label: 'Member', href: '/team' },
   { label: 'Idea', href: '/idea-pitching' },
-  { label: 'Join Us', href: '/join' },
 ];
 
 export const MobileMenu: React.FC = () => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const isOpen = useAppSelector((state) => state.ui.isMobileMenuOpen);
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
   return (
     <div
-      className={`md:hidden fixed inset-0 z-50 transition-visibility duration-300 ${
+      className={`md:hidden fixed inset-0 z-[110] transition-visibility duration-300 ${
         isOpen ? 'pointer-events-auto visible' : 'pointer-events-none invisible'
       }`}
     >
@@ -81,13 +81,29 @@ export const MobileMenu: React.FC = () => {
           </nav>
         </div>
 
-        {/* Sidebar Footer Login Action */}
+        {/* Sidebar Footer Auth Action */}
         <div className="pt-6 border-t-3 border-black">
-          <Link href="/login" onClick={() => dispatch(closeMobileMenu())}>
-            <MemphisButton variant="secondary" className="w-full flex items-center justify-center gap-2 py-3 text-base">
+          {isAuthenticated && user ? (
+            <Link href="/profile" onClick={() => dispatch(closeMobileMenu())}>
+              <MemphisButton
+                variant="primary"
+                className="w-full flex items-center justify-center gap-2 py-3 text-base"
+              >
+                <User className="w-4 h-4" /> {user.name.split(' ')[0]}&apos;s Profile
+              </MemphisButton>
+            </Link>
+          ) : (
+            <MemphisButton
+              onClick={() => {
+                dispatch(closeMobileMenu());
+                dispatch(setActiveModal('auth'));
+              }}
+              variant="secondary"
+              className="w-full flex items-center justify-center gap-2 py-3 text-base"
+            >
               <LogIn className="w-4 h-4" /> Login
             </MemphisButton>
-          </Link>
+          )}
         </div>
       </div>
     </div>

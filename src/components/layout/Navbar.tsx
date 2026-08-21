@@ -1,12 +1,12 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { toggleMobileMenu } from '@/store/slices/uiSlice';
+import { toggleMobileMenu, setActiveModal } from '@/store/slices/uiSlice';
 import { MemphisButton } from '../common/MemphisButton';
-import { Zap, Menu, X, LogIn } from 'lucide-react';
+import { Zap, Menu, X, LogIn, User } from 'lucide-react';
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -14,16 +14,16 @@ const navItems = [
   { label: 'Event', href: '/events' },
   { label: 'Member', href: '/team' },
   { label: 'Idea', href: '/idea-pitching' },
-  { label: 'Join Us', href: '/join' },
 ];
 
 export const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const isMobileMenuOpen = useAppSelector((state) => state.ui.isMobileMenuOpen);
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
   return (
-    <nav className="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-md border-b-4 border-black">
+    <nav className="fixed w-full top-0 z-[100] bg-white/90 backdrop-blur-md border-b-4 border-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center gap-3">
@@ -60,11 +60,27 @@ export const Navbar: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden sm:block">
-              <MemphisButton variant="secondary" className="flex items-center gap-1.5 px-5">
-                <LogIn className="w-4 h-4" /> Login
-              </MemphisButton>
-            </Link>
+            {isAuthenticated && user ? (
+              <Link href="/profile" className="hidden sm:block">
+                <MemphisButton
+                  variant="primary"
+                  className="flex items-center gap-2 px-5 py-2 text-xs uppercase"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  <span className="max-w-[120px] truncate">{user.name.split(' ')[0]}</span>
+                </MemphisButton>
+              </Link>
+            ) : (
+              <div className="hidden sm:block">
+                <MemphisButton
+                  onClick={() => dispatch(setActiveModal('auth'))}
+                  variant="secondary"
+                  className="flex items-center gap-1.5 px-5"
+                >
+                  <LogIn className="w-4 h-4" /> Login
+                </MemphisButton>
+              </div>
+            )}
 
             <button
               onClick={() => dispatch(toggleMobileMenu())}

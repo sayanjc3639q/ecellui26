@@ -1,7 +1,8 @@
-﻿import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import uiReducer from './slices/uiSlice';
 import eventsReducer from './slices/eventsSlice';
 import startupsReducer from './slices/startupsSlice';
+import authReducer from './slices/authSlice';
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       ui: uiReducer,
       events: eventsReducer,
       startups: startupsReducer,
+      auth: authReducer,
     },
   });
 };

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import { SectionHeader } from '../common/SectionHeader';
@@ -45,8 +45,18 @@ const facultyList: FacultyCoordinator[] = [
 
 export const GuidanceThatEmpowers: React.FC = () => {
   return (
-    <section className="gsap-section-reveal py-24 bg-pink-soft/15 border-b-4 border-black relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section className="gsap-section-reveal py-24 bg-pink-soft/15 border-b-4 border-black relative overflow-hidden">
+      {/* Unique Pattern Texture: Wavy Diagonal Hatches */}
+      <div className="absolute inset-0 bg-pattern-diagonal-waves pointer-events-none opacity-50 z-0" />
+
+      {/* Decorative Wavy Ribbon in Background */}
+      <div className="absolute top-0 left-0 right-0 overflow-hidden leading-none pointer-events-none z-0 opacity-30">
+        <svg className="w-full h-10" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,80 C300,10 600,100 900,20 C1050,-20 1150,70 1200,40 L1200,0 L0,0 Z" fill="#FBDAE9" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
         <SectionHeader
           badge="Advisory"
           title="Guidance that Empowers"

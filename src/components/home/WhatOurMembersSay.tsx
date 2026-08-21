@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import { SectionHeader } from '../common/SectionHeader';
@@ -45,8 +45,18 @@ const memberTestimonials: MemberTestimonial[] = [
 
 export const WhatOurMembersSay: React.FC = () => {
   return (
-    <section className="gsap-section-reveal py-24 bg-mint/15 border-b-4 border-black relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section className="gsap-section-reveal py-24 bg-mint/15 border-b-4 border-black relative overflow-hidden">
+      {/* Unique Pattern Texture: Mint Bubble Rings */}
+      <div className="absolute inset-0 bg-pattern-bubbles pointer-events-none opacity-40 z-0" />
+
+      {/* Decorative Wave Divider at Top */}
+      <div className="absolute top-0 left-0 right-0 overflow-hidden leading-none pointer-events-none z-0 opacity-30">
+        <svg className="w-full h-8" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0 C200,80 400,-10 600,60 C800,130 1000,20 1200,60 L1200,0 L0,0 Z" fill="#4895EF" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
         <SectionHeader
           badge="Community Voices"
           title="What Our Members Say"
