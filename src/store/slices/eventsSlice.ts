@@ -1,11 +1,40 @@
-﻿import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EventItem, EventCategory } from '@/types/event';
+
+export interface DraftRegistration {
+  eventSlug: string;
+  eventTitle: string;
+  eventType: 'hackathon' | 'workshop' | 'seminar';
+  step: 'individual' | 'team-choice' | 'create-team' | 'join-team' | 'direct';
+  lastSavedAt: string;
+  directForm?: {
+    name: string;
+    email: string;
+    department: string;
+    year: string;
+    phone: string;
+    expectations: string;
+  };
+  hackathonForm?: {
+    name: string;
+    email: string;
+    college: string;
+    github: string;
+    role: string;
+    teamName?: string;
+    track?: string;
+    inviteEmails?: string[];
+    teamCode?: string;
+  };
+}
 
 interface EventsState {
   items: EventItem[];
   selectedCategory: EventCategory | 'All';
   searchQuery: string;
   loading: boolean;
+  draftRegistration: DraftRegistration | null;
+  confirmedRegistrations: string[]; // eventSlugs
 }
 
 const mockEvents: EventItem[] = [
@@ -42,6 +71,8 @@ const initialState: EventsState = {
   selectedCategory: 'All',
   searchQuery: '',
   loading: false,
+  draftRegistration: null,
+  confirmedRegistrations: [],
 };
 
 export const eventsSlice = createSlice({
@@ -54,8 +85,26 @@ export const eventsSlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
+    saveDraftRegistration: (state, action: PayloadAction<DraftRegistration>) => {
+      state.draftRegistration = action.payload;
+    },
+    clearDraftRegistration: (state) => {
+      state.draftRegistration = null;
+    },
+    completeRegistration: (state, action: PayloadAction<string>) => {
+      if (!state.confirmedRegistrations.includes(action.payload)) {
+        state.confirmedRegistrations.push(action.payload);
+      }
+      state.draftRegistration = null;
+    },
   },
 });
 
-export const { setCategoryFilter, setSearchQuery } = eventsSlice.actions;
+export const {
+  setCategoryFilter,
+  setSearchQuery,
+  saveDraftRegistration,
+  clearDraftRegistration,
+  completeRegistration,
+} = eventsSlice.actions;
 export default eventsSlice.reducer;

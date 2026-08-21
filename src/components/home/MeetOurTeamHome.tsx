@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
@@ -45,8 +45,18 @@ const leadsList: LeadMember[] = [
 
 export const MeetOurTeamHome: React.FC = () => {
   return (
-    <section className="gsap-section-reveal py-24 bg-peach/25 border-b-4 border-black relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section className="gsap-section-reveal py-24 bg-peach/25 border-b-4 border-black relative overflow-hidden">
+      {/* Unique Pattern Texture: Crosshatch Plus Grid */}
+      <div className="absolute inset-0 bg-pattern-crosshatch pointer-events-none opacity-55 z-0" />
+
+      {/* Floating Memphis Polygon Shape */}
+      <div className="hidden lg:block absolute right-16 bottom-8 pointer-events-none z-0 animate-shape-float-c opacity-40">
+        <svg width="45" height="45" viewBox="0 0 100 100">
+          <polygon points="50,5 95,95 5,95" fill="#FFE5D9" stroke="#000" strokeWidth="6" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
           <div>
             <div className="inline-block px-4 py-1.5 bg-black text-white font-display font-extrabold text-xs rounded-full border-2 border-black uppercase tracking-wider mb-3">

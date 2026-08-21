@@ -1,12 +1,23 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import { SectionHeader } from '../common/SectionHeader';
 
 export const CapturedInMotion: React.FC = () => {
   return (
-    <section className="gsap-section-reveal py-24 bg-white border-b-4 border-black relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section className="gsap-section-reveal py-24 bg-white border-b-4 border-black relative overflow-hidden">
+      {/* Unique Pattern Texture: Halftone Multi-Color Confetti */}
+      <div className="absolute inset-0 bg-pattern-confetti pointer-events-none opacity-50 z-0" />
+
+      {/* Floating Donut Ring */}
+      <div className="hidden lg:block absolute right-12 top-10 pointer-events-none z-0 animate-shape-float-b opacity-40">
+        <svg width="60" height="60" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="38" stroke="#4895EF" strokeWidth="16" fill="none" />
+          <circle cx="50" cy="50" r="46" stroke="#000" strokeWidth="3" fill="none" />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
         <SectionHeader
           badge="Gallery"
           title="Captured in Motion"
