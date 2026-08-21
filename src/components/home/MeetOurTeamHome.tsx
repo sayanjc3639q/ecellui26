@@ -4,7 +4,8 @@ import React from 'react';
 import Link from 'next/link';
 import { MemphisCard } from '../common/MemphisCard';
 import { MemphisButton } from '../common/MemphisButton';
-import { Mail, Linkedin } from 'lucide-react';
+import { Mail } from 'lucide-react';
+import { BsLinkedin } from 'react-icons/bs';
 
 interface LeadMember {
   id: string;
@@ -72,7 +73,7 @@ export const MeetOurTeamHome: React.FC = () => {
                 <p className="text-xs text-slate-500 font-body mt-1">{lead.department}</p>
                 <div className="flex gap-3 mt-4">
                   <a href="#" className="w-9 h-9 rounded-full border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors">
-                    <Linkedin className="w-4 h-4" />
+                    <BsLinkedin className="w-4 h-4" />
                   </a>
                   <a href="#" className="w-9 h-9 rounded-full border-2 border-black flex items-center justify-center hover:bg-black hover:text-white transition-colors">
                     <Mail className="w-4 h-4" />

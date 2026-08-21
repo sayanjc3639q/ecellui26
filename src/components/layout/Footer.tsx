@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { FooterLinks } from './FooterLinks';
-import { Zap, Linkedin, Twitter, Instagram } from 'lucide-react';
+import { Zap } from 'lucide-react';
+import { BsTwitterX, BsLinkedin, BsInstagram } from 'react-icons/bs';
 
 export const Footer: React.FC = () => {
   return (
@@ -21,13 +22,13 @@ export const Footer: React.FC = () => {
             </p>
             <div className="flex space-x-3 pt-2">
               <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center border-2 border-white hover:translate-y-0.5 hover:bg-primary transition-all">
-                <Twitter className="w-5 h-5 text-white" />
+                <BsTwitterX className="w-4 h-4 text-white" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center border-2 border-white hover:translate-y-0.5 hover:bg-primary transition-all">
-                <Linkedin className="w-5 h-5 text-white" />
+                <BsLinkedin className="w-4 h-4 text-white" />
               </a>
               <a href="#" className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center border-2 border-white hover:translate-y-0.5 hover:bg-primary transition-all">
-                <Instagram className="w-5 h-5 text-white" />
+                <BsInstagram className="w-4 h-4 text-white" />
               </a>
             </div>
           </div>
