@@ -64,26 +64,6 @@ export const OurAchievements: React.FC = () => {
             </MemphisCard>
           ))}
         </div>
-
-        {/* Statistics Grid */}
-        <div className="gsap-cards-grid grid grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
-          <div className="gsap-card-item p-6 bg-white border-4 border-black rounded-3xl shadow-[6px_6px_0px_0px_#000] text-center rotate-1">
-            <div className="text-4xl sm:text-5xl font-display font-black text-slate-900 mb-1">50+</div>
-            <div className="text-xs font-display font-extrabold uppercase tracking-widest text-slate-600">Startups Incubated</div>
-          </div>
-          <div className="gsap-card-item p-6 bg-primary border-4 border-black rounded-3xl shadow-[6px_6px_0px_0px_#000] text-center -rotate-1 text-white">
-            <div className="text-4xl sm:text-5xl font-display font-black mb-1">₹10Cr+</div>
-            <div className="text-xs font-display font-extrabold uppercase tracking-widest text-white/90">Funding Raised</div>
-          </div>
-          <div className="gsap-card-item p-6 bg-white border-4 border-black rounded-3xl shadow-[6px_6px_0px_0px_#000] text-center rotate-1">
-            <div className="text-4xl sm:text-5xl font-display font-black text-slate-900 mb-1">200+</div>
-            <div className="text-xs font-display font-extrabold uppercase tracking-widest text-slate-600">Workshops &amp; Meets</div>
-          </div>
-          <div className="gsap-card-item p-6 bg-secondary border-4 border-black rounded-3xl shadow-[6px_6px_0px_0px_#000] text-center -rotate-1 text-white">
-            <div className="text-4xl sm:text-5xl font-display font-black mb-1">15k+</div>
-            <div className="text-xs font-display font-extrabold uppercase tracking-widest text-white/90">Active Members</div>
-          </div>
-        </div>
       </div>
     </section>
   );
