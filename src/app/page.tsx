@@ -5,8 +5,6 @@ import { FindYourPath } from '@/components/home/FindYourPath';
 import { UpcomingEventsHomeSection } from '@/components/home/UpcomingEventsHomeSection';
 import { StartupWallHomeSection } from '@/components/home/StartupWallHomeSection';
 import { HubDashboardSection } from '@/components/home/HubDashboardSection';
-import { SpiritOfInnovation } from '@/components/home/SpiritOfInnovation';
-import { OurAchievements } from '@/components/home/OurAchievements';
 import { CapturedInMotion } from '@/components/home/CapturedInMotion';
 import { GuidanceThatEmpowers } from '@/components/home/GuidanceThatEmpowers';
 import { MeetOurTeamHome } from '@/components/home/MeetOurTeamHome';
@@ -23,8 +21,6 @@ export default function HomePage() {
       <UpcomingEventsHomeSection />
       <StartupWallHomeSection />
       <HubDashboardSection />
-      <SpiritOfInnovation />
-      <OurAchievements />
       <CapturedInMotion />
       <GuidanceThatEmpowers />
       <MeetOurTeamHome />
@@ -33,5 +29,6 @@ export default function HomePage() {
     </GsapScrollProvider>
   );
 }
+
 
 
