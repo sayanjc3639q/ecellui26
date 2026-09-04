@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { MemphisButton } from '../common/MemphisButton';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Users, Laptop, Megaphone, Handshake } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
   return (
@@ -56,93 +56,52 @@ export const HeroSection: React.FC = () => {
         </svg>
       </div>
 
-      {/* 4. FLOATING BADGE CARDS (IDEA, LAUNCH, GROWTH, CONNECT) */}
+      {/* 4. FLOATING BADGE CARDS (CORE TEAM, TECH TEAM, MEDIA TEAM, PR TEAM) */}
 
-      {/* Card 1: IDEA (Top-Left) */}
+      {/* Card 1: CORE TEAM (Top-Left) */}
       <div className="hidden md:flex absolute left-[3%] lg:left-[5%] xl:left-[7%] top-[20%] z-20 animate-shape-float-a">
         <div className="bg-white dark:bg-slate-900 border-2 border-black/80 dark:border-white/80 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.15)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] min-w-[84px] sm:min-w-[96px]">
-          <div className="relative">
-            <svg width="34" height="34" viewBox="0 0 48 48" fill="none">
-              <line x1="24" y1="4" x2="24" y2="8" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="10" y1="10" x2="13" y2="13" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="38" y1="10" x2="35" y2="13" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="4" y1="24" x2="8" y2="24" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="44" y1="24" x2="40" y2="24" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-              <path
-                d="M16 22 C16 17.58 19.58 14 24 14 C28.42 14 32 17.58 32 22 C32 25.5 30 28 28 30 L28 34 L20 34 L20 30 C18 28 16 25.5 16 22 Z"
-                fill="#FFD166"
-                stroke="#000"
-                strokeWidth="2.5"
-                strokeLinejoin="round"
-              />
-              <line x1="20" y1="38" x2="28" y2="38" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
+          <div className="w-9 h-9 rounded-full bg-[#FFD166] border-2 border-black flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_#000]">
+            <Users className="w-5 h-5 text-slate-950 stroke-[2.5]" />
           </div>
-          <span className="font-display font-black text-[11px] sm:text-xs tracking-wider text-slate-800 dark:text-slate-100 uppercase">
-            IDEA
+          <span className="font-display font-black text-[10px] sm:text-[11px] tracking-wider text-slate-800 dark:text-slate-100 uppercase">
+            CORE TEAM
           </span>
         </div>
       </div>
 
-      {/* Card 2: LAUNCH (Bottom-Left) */}
+      {/* Card 2: TECH TEAM (Bottom-Left) */}
       <div className="hidden md:flex absolute left-[4%] lg:left-[6%] xl:left-[8%] top-[50%] z-20 animate-shape-float-b">
         <div className="bg-white dark:bg-slate-900 border-2 border-black/80 dark:border-white/80 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.15)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] min-w-[84px] sm:min-w-[96px]">
-          <div className="relative">
-            <svg width="34" height="34" viewBox="0 0 48 48" fill="none">
-              <path
-                d="M24 6 C30 12 34 20 34 30 L28 30 L28 34 L20 34 L20 30 L14 30 C14 20 18 12 24 6 Z"
-                fill="#4895EF"
-                stroke="#000"
-                strokeWidth="2.5"
-                strokeLinejoin="round"
-              />
-              <path d="M14 24 L8 30 L14 30 Z" fill="#FF6B35" stroke="#000" strokeWidth="2.5" strokeLinejoin="round" />
-              <path d="M34 24 L40 30 L34 30 Z" fill="#FF6B35" stroke="#000" strokeWidth="2.5" strokeLinejoin="round" />
-              <circle cx="24" cy="18" r="3.5" fill="#FFFFFF" stroke="#000" strokeWidth="2" />
-              <line x1="20" y1="38" x2="20" y2="43" stroke="#FF6B35" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="24" y1="38" x2="24" y2="45" stroke="#FFD166" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="28" y1="38" x2="28" y2="43" stroke="#FF6B35" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
+          <div className="w-9 h-9 rounded-full bg-[#4895EF] border-2 border-black flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_#000]">
+            <Laptop className="w-5 h-5 text-white stroke-[2.5]" />
           </div>
-          <span className="font-display font-black text-[11px] sm:text-xs tracking-wider text-slate-800 dark:text-slate-100 uppercase">
-            LAUNCH
+          <span className="font-display font-black text-[10px] sm:text-[11px] tracking-wider text-slate-800 dark:text-slate-100 uppercase">
+            TECH TEAM
           </span>
         </div>
       </div>
 
-      {/* Card 3: GROWTH (Top-Right) */}
+      {/* Card 3: MEDIA TEAM (Top-Right) */}
       <div className="hidden md:flex absolute right-[3%] lg:right-[5%] xl:right-[7%] top-[20%] z-20 animate-shape-float-b">
         <div className="bg-white dark:bg-slate-900 border-2 border-black/80 dark:border-white/80 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.15)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] min-w-[84px] sm:min-w-[96px]">
-          <div className="relative">
-            <svg width="34" height="34" viewBox="0 0 48 48" fill="none">
-              <rect x="10" y="26" width="6" height="14" rx="2" fill="#4895EF" stroke="#000" strokeWidth="2.2" />
-              <rect x="20" y="18" width="6" height="22" rx="2" fill="#0077B6" stroke="#000" strokeWidth="2.2" />
-              <rect x="30" y="10" width="6" height="30" rx="2" fill="#023E8A" stroke="#000" strokeWidth="2.2" />
-              <path d="M10 20 L22 10 L34 6" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M28 6 L34 6 L34 12" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <div className="w-9 h-9 rounded-full bg-[#FBDAE9] border-2 border-black flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_#000]">
+            <Megaphone className="w-5 h-5 text-slate-950 stroke-[2.5]" />
           </div>
-          <span className="font-display font-black text-[11px] sm:text-xs tracking-wider text-slate-800 dark:text-slate-100 uppercase">
-            GROWTH
+          <span className="font-display font-black text-[10px] sm:text-[11px] tracking-wider text-slate-800 dark:text-slate-100 uppercase">
+            MEDIA TEAM
           </span>
         </div>
       </div>
 
-      {/* Card 4: CONNECT (Bottom-Right) */}
+      {/* Card 4: PR TEAM (Bottom-Right) */}
       <div className="hidden md:flex absolute right-[4%] lg:right-[6%] xl:right-[8%] top-[50%] z-20 animate-shape-float-a">
         <div className="bg-white dark:bg-slate-900 border-2 border-black/80 dark:border-white/80 rounded-2xl p-3 sm:p-4 flex flex-col items-center justify-center gap-1.5 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.15)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] min-w-[84px] sm:min-w-[96px]">
-          <div className="relative">
-            <svg width="34" height="34" viewBox="0 0 48 48" fill="none">
-              <path d="M8 20 L16 14 L23 20 L18 26 L12 24 Z" fill="#FFE5D9" stroke="#000" strokeWidth="2.2" strokeLinejoin="round" />
-              <path d="M6 18 L10 24" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-              <path d="M40 20 L32 14 L25 20 L30 26 L36 24 Z" fill="#FFE5D9" stroke="#000" strokeWidth="2.2" strokeLinejoin="round" />
-              <path d="M42 18 L38 24" stroke="#000" strokeWidth="2.5" strokeLinecap="round" />
-              <path d="M20 23 L24 27 L28 23" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M22 27 L25 30 L29 26" stroke="#000" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <div className="w-9 h-9 rounded-full bg-[#D8F3DC] border-2 border-black flex items-center justify-center shadow-[1.5px_1.5px_0px_0px_#000]">
+            <Handshake className="w-5 h-5 text-slate-950 stroke-[2.5]" />
           </div>
-          <span className="font-display font-black text-[11px] sm:text-xs tracking-wider text-slate-800 dark:text-slate-100 uppercase">
-            CONNECT
+          <span className="font-display font-black text-[10px] sm:text-[11px] tracking-wider text-slate-800 dark:text-slate-100 uppercase">
+            PR TEAM
           </span>
         </div>
       </div>
