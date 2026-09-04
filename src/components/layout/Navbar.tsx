@@ -11,10 +11,12 @@ import { Zap, Menu, X, LogIn, User } from 'lucide-react';
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Event', href: '/events' },
-  { label: 'Member', href: '/team' },
+  { label: 'Events', href: '/events' },
+  { label: 'Startups', href: '/startups' },
+  { label: 'Team', href: '/team' },
   { label: 'Idea', href: '/idea-pitching' },
 ];
+
 
 export const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, MessageSquare, ChevronDown, Sparkles } from 'lucide-react';
 import { BsLinkedin } from 'react-icons/bs';
@@ -180,6 +180,7 @@ const alumniMembers: AlumniMember[] = [
 ];
 
 export default function TeamPage() {
+  const [activeTab, setActiveTab] = useState<'active' | 'alumni'>('active');
   const heroRef = useRef<HTMLDivElement>(null);
   const cloudLeftRef = useRef<HTMLDivElement>(null);
   const cloudRightRef = useRef<HTMLDivElement>(null);
@@ -203,23 +204,29 @@ export default function TeamPage() {
           .to(cloudRightRef.current, { xPercent: 70, yPercent: 20, opacity: 0, ease: 'power2.out' }, 0)
           .to(cloudCenterRef.current, { yPercent: 50, scale: 1.3, opacity: 0, ease: 'power2.out' }, 0);
       }
-
-      if (leadCardsRef.current) {
-        gsap.from(leadCardsRef.current.children, {
-          scrollTrigger: { trigger: leadsSectionRef.current, start: 'top 75%' },
-          y: 60, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'back.out(1.4)',
-        });
-      }
     });
     return () => ctx.revert();
   }, []);
+
+  // Separate effect for lead cards since they re-mount when tabs change
+  useEffect(() => {
+    if (activeTab === 'active' && leadCardsRef.current && leadsSectionRef.current) {
+      const ctx = gsap.context(() => {
+        gsap.from(leadCardsRef.current!.children, {
+          scrollTrigger: { trigger: leadsSectionRef.current, start: 'top 75%' },
+          y: 60, opacity: 0, duration: 0.7, stagger: 0.1, ease: 'back.out(1.4)',
+        });
+      });
+      return () => ctx.revert();
+    }
+  }, [activeTab]);
 
   return (
     <div className="pt-20 min-h-screen bg-[#faf8f5] dark:bg-[#121418] text-slate-900 dark:text-white overflow-x-hidden">
       {/* 1. FULL-SCREEN HERO WITH CLEAN BALANCED SPACING */}
       <section
         ref={heroRef}
-        className="relative min-h-[calc(100vh-80px)] flex flex-col justify-between items-center overflow-hidden border-b-4 border-black bg-white dark:bg-slate-950 text-center px-4 pt-10 sm:pt-14 pb-0"
+        className="relative min-h-[calc(100vh-140px)] flex flex-col justify-between items-center overflow-hidden border-b-4 border-black bg-white dark:bg-slate-950 text-center px-4 pt-10 sm:pt-14 pb-0"
       >
         {/* Left Peach Half-Circle Motif */}
         <div className="absolute -top-12 -left-16 w-56 sm:w-72 h-56 sm:h-72 bg-[#fecdd3] dark:bg-pink-950/40 rounded-full border-4 border-black pointer-events-none z-0 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]" />
@@ -248,20 +255,25 @@ export default function TeamPage() {
             </p>
           </div>
 
-          {/* Scroll Down Indicator (Elevated on top of clouds) */}
-          <div className="pt-4 sm:pt-6 flex flex-col items-center gap-2 relative z-30">
-            <span className="text-[11px] font-display font-black tracking-widest uppercase bg-white/90 dark:bg-slate-900/90 px-3 py-1 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_#000] text-slate-900 dark:text-white">
-              SCROLL TO REVEAL LEADS
-            </span>
-            <button
-              onClick={() => {
-                leadsSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="w-10 h-10 rounded-full bg-[#fde047] border-2 border-black flex items-center justify-center shadow-[3px_3px_0px_0px_#000] active:translate-y-0.5 animate-bounce hover:scale-105 transition-transform cursor-pointer"
-              aria-label="Scroll down to leads"
-            >
-              <ChevronDown className="w-5 h-5 text-black stroke-[3]" />
-            </button>
+          {/* INNOVATIVE SLIDER SWITCH */}
+          <div className="pt-10 pb-6 flex justify-center relative z-40">
+            <div className="relative inline-flex bg-white dark:bg-slate-900 rounded-full border-4 border-black p-2 shadow-[8px_8px_0px_0px_#000]">
+              <div 
+                className={`absolute top-2 bottom-2 w-[calc(50%-8px)] bg-[#fde047] rounded-full border-3 border-black transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${activeTab === 'alumni' ? 'translate-x-full' : 'translate-x-0'}`} 
+              />
+              <button 
+                onClick={() => setActiveTab('active')}
+                className={`relative z-10 px-8 py-4 font-display font-black text-xl uppercase tracking-wider transition-colors duration-300 w-40 sm:w-48 ${activeTab === 'active' ? 'text-black' : 'text-slate-500 hover:text-black dark:text-slate-400'}`}
+              >
+                Active
+              </button>
+              <button 
+                onClick={() => setActiveTab('alumni')}
+                className={`relative z-10 px-8 py-4 font-display font-black text-xl uppercase tracking-wider transition-colors duration-300 w-40 sm:w-48 ${activeTab === 'alumni' ? 'text-black' : 'text-slate-500 hover:text-black dark:text-slate-400'}`}
+              >
+                Alumni
+              </button>
+            </div>
           </div>
         </div>
 
@@ -329,184 +341,201 @@ export default function TeamPage() {
         </div>
       </section>
 
-      <section ref={leadsSectionRef} className="py-16 border-b-4 border-black relative overflow-hidden bg-[#e0e7ff] dark:bg-[#151c33]">
-        <div className="absolute inset-0 bg-pattern-diagonal-waves pointer-events-none opacity-30 z-0" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-5 h-5 bg-[#ea580c] border-2 border-black rotate-45 shrink-0" />
-              <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-950 dark:text-white tracking-tight">Student Leads</h2>
-            </div>
-            <span className="text-xs font-display font-black px-3.5 py-1 bg-white dark:bg-slate-800 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_#000]">✦ 8 Core Leads</span>
-          </div>
-          <div ref={leadCardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
-            {studentLeads.map((lead) => (
-              <div key={lead.id} className="bg-white dark:bg-slate-900 rounded-[28px] border-3 border-black dark:border-white overflow-hidden shadow-[5px_5px_0px_0px_#000] dark:shadow-[5px_5px_0px_0px_#fff] flex flex-col justify-between hover:-translate-y-1.5 transition-transform duration-300 group">
-                <div>
-                  {/* Top Photo Frame */}
-                  <div className="relative h-44 w-full overflow-hidden border-b-3 border-black bg-slate-100">
-                    <img
-                      src={lead.image}
-                      alt={lead.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className={`absolute inset-0 ${lead.colorOverlay}`} />
-
-                    {/* Role Pill Badge */}
-                    <span className={`absolute bottom-3 left-3 px-2.5 py-0.5 text-[10px] font-display font-black rounded-full border border-black shadow-[2px_2px_0px_0px_#000] ${lead.badgeBg}`}>
-                      {lead.role}
-                    </span>
+      {/* RENDER ACTIVE TAB OR ALUMNI TAB */}
+      <div className="relative min-h-screen">
+        {activeTab === 'active' ? (
+          <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
+            {/* LEADS SECTION */}
+            <section ref={leadsSectionRef} className="py-16 border-b-4 border-black relative overflow-hidden bg-[#e0e7ff] dark:bg-[#151c33]">
+              <div className="absolute inset-0 bg-pattern-diagonal-waves pointer-events-none opacity-30 z-0" />
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 bg-[#ea580c] border-2 border-black rotate-45 shrink-0" />
+                    <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-950 dark:text-white tracking-tight">Student Leads</h2>
                   </div>
+                  <span className="text-xs font-display font-black px-3.5 py-1 bg-white dark:bg-slate-800 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_#000]">✦ 8 Core Leads</span>
+                </div>
+                <div ref={leadCardsRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
+                  {studentLeads.map((lead) => (
+                    <div key={lead.id} className="bg-white dark:bg-slate-900 rounded-[28px] border-3 border-black dark:border-white overflow-hidden shadow-[5px_5px_0px_0px_#000] dark:shadow-[5px_5px_0px_0px_#fff] flex flex-col justify-between hover:-translate-y-1.5 transition-transform duration-300 group">
+                      <div>
+                        {/* Top Photo Frame */}
+                        <div className="relative h-44 w-full overflow-hidden border-b-3 border-black bg-slate-100">
+                          <img
+                            src={lead.image}
+                            alt={lead.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className={`absolute inset-0 ${lead.colorOverlay}`} />
 
-                  {/* Details */}
-                  <div className="p-4 space-y-1.5">
-                    <h3 className="font-display font-black text-xl text-slate-950 dark:text-white tracking-tight leading-snug">
-                      {lead.name}
-                    </h3>
-                    <p className="font-body text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
-                      {lead.description}
-                    </p>
-                  </div>
+                          {/* Role Pill Badge */}
+                          <span className={`absolute bottom-3 left-3 px-2.5 py-0.5 text-[10px] font-display font-black rounded-full border border-black shadow-[2px_2px_0px_0px_#000] ${lead.badgeBg}`}>
+                            {lead.role}
+                          </span>
+                        </div>
+
+                        {/* Details */}
+                        <div className="p-4 space-y-1.5">
+                          <h3 className="font-display font-black text-xl text-slate-950 dark:text-white tracking-tight leading-snug">
+                            {lead.name}
+                          </h3>
+                          <p className="font-body text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed">
+                            {lead.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Connect Action Button */}
+                      <div className="p-4 pt-0">
+                        <button className="w-full py-2 px-3 rounded-xl bg-[#0052cc] hover:bg-[#0043a8] text-white font-display font-black text-xs flex items-center justify-center gap-1.5 border-2 border-black shadow-[2px_2px_0px_0px_#000] active:translate-y-0.5 active:shadow-none transition-all">
+                          <MessageSquare className="w-3.5 h-3.5" /> Connect
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* THE TEAM SECTION */}
+            <section className="py-20 border-b-4 border-black relative overflow-hidden bg-white dark:bg-slate-950">
+              {/* Large Yellow Background Circle Accent at Bottom Right */}
+              <div className="hidden md:block absolute -bottom-16 -right-16 w-80 h-80 bg-[#fde047] dark:bg-amber-500/20 rounded-full border-4 border-black pointer-events-none z-0 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]" />
+
+              {/* Polka Dot Texture */}
+              <div className="absolute inset-0 bg-memphis-dots pointer-events-none opacity-25 z-0" />
+
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+                {/* Section Header with Blue Triangle Icon */}
+                <div className="flex items-center gap-3">
+                  <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[18px] border-b-[#0052cc] shrink-0" />
+                  <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-950 dark:text-white tracking-tight">
+                    The Team
+                  </h2>
                 </div>
 
-                {/* Connect Action Button */}
-                <div className="p-4 pt-0">
-                  <button className="w-full py-2 px-3 rounded-xl bg-[#0052cc] hover:bg-[#0043a8] text-white font-display font-black text-xs flex items-center justify-center gap-1.5 border-2 border-black shadow-[2px_2px_0px_0px_#000] active:translate-y-0.5 active:shadow-none transition-all">
-                    <MessageSquare className="w-3.5 h-3.5" /> Connect
+                {/* 4 Team Member Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {teamMembers.map((member) => (
+                    <div
+                      key={member.id}
+                      className="group relative bg-white dark:bg-slate-900 rounded-[28px] border-3 border-black dark:border-white p-6 shadow-[5px_5px_0px_0px_#000] dark:shadow-[5px_5px_0px_0px_#fff] flex flex-col items-center text-center space-y-4 hover:-translate-y-1.5 transition-transform overflow-hidden z-10"
+                    >
+                      {/* Hover Background Image */}
+                      <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                        <img src={member.image} alt="" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-slate-900/80 dark:bg-black/80" />
+                      </div>
+
+                      {/* Content (Z-10 to stay above hover background) */}
+                      <div className="relative z-10 flex flex-col items-center w-full space-y-4">
+                        {/* Circular Profile Photo with Double Border */}
+                        <div className="w-24 h-24 rounded-full border-3 border-black dark:border-white overflow-hidden bg-slate-100 p-1 group-hover:opacity-0 group-hover:scale-75 transition-all duration-500 origin-center">
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        </div>
+
+                        <div className="space-y-1">
+                          <h4 className="font-display font-black text-lg sm:text-xl text-slate-950 dark:text-white group-hover:text-white transition-colors duration-300">
+                            {member.name}
+                          </h4>
+                          <p className="font-body text-xs text-slate-500 dark:text-slate-400 font-bold group-hover:text-slate-300 transition-colors duration-300">
+                            {member.role}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* View All Members Pill CTA */}
+                <div className="flex justify-center pt-4">
+                  <button className="py-3 px-8 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-950 dark:text-white font-display font-black text-sm flex items-center gap-2 border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] active:translate-y-0.5 active:shadow-none transition-all">
+                    View All Members <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>
-            ))}
+            </section>
           </div>
-        </div>
-      </section>
+        ) : (
+          <div className="animate-in fade-in slide-in-from-bottom-8 duration-700">
+            {/* ALUMNI SECTION (OUR LEGACY BUILDERS) */}
+            <section className="py-20 border-b-4 border-black relative overflow-hidden bg-peach/20 dark:bg-amber-950/20">
+              {/* Diagonal Crosses Texture */}
+              <div className="absolute inset-0 bg-memphis-crosses pointer-events-none opacity-30 z-0" />
 
-      {/* 3. THE TEAM SECTION */}
-      <section className="py-20 border-b-4 border-black relative overflow-hidden bg-white dark:bg-slate-950">
-        {/* Large Yellow Background Circle Accent at Bottom Right */}
-        <div className="hidden md:block absolute -bottom-16 -right-16 w-80 h-80 bg-[#fde047] dark:bg-amber-500/20 rounded-full border-4 border-black pointer-events-none z-0 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]" />
-
-        {/* Polka Dot Texture */}
-        <div className="absolute inset-0 bg-memphis-dots pointer-events-none opacity-25 z-0" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
-          {/* Section Header with Blue Triangle Icon */}
-          <div className="flex items-center gap-3">
-            <div className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[18px] border-b-[#0052cc] shrink-0" />
-            <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-950 dark:text-white tracking-tight">
-              The Team
-            </h2>
-          </div>
-
-          {/* 4 Team Member Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teamMembers.map((member) => (
-              <div
-                key={member.id}
-                className="bg-white dark:bg-slate-900 rounded-[28px] border-3 border-black dark:border-white p-6 shadow-[5px_5px_0px_0px_#000] dark:shadow-[5px_5px_0px_0px_#fff] flex flex-col items-center text-center space-y-4 hover:-translate-y-1.5 transition-transform"
-              >
-                {/* Circular Profile Photo with Double Border */}
-                <div className="w-24 h-24 rounded-full border-3 border-black overflow-hidden bg-slate-100 p-1">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <h4 className="font-display font-black text-lg sm:text-xl text-slate-950 dark:text-white">
-                    {member.name}
-                  </h4>
-                  <p className="font-body text-xs text-slate-500 dark:text-slate-400 font-bold">
-                    {member.role}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* View All Members Pill CTA */}
-          <div className="flex justify-center pt-4">
-            <button className="py-3 px-8 rounded-full bg-white dark:bg-slate-900 hover:bg-slate-50 text-slate-950 dark:text-white font-display font-black text-sm flex items-center gap-2 border-2 border-black dark:border-white shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] active:translate-y-0.5 active:shadow-none transition-all">
-              View All Members <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. ALUMNI SECTION (OUR LEGACY BUILDERS) */}
-      <section className="py-20 border-b-4 border-black relative overflow-hidden bg-peach/20 dark:bg-amber-950/20">
-        {/* Diagonal Crosses Texture */}
-        <div className="absolute inset-0 bg-memphis-crosses pointer-events-none opacity-30 z-0" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
-          {/* Section Header with Yellow Star Icon */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-full bg-[#fde047] border-2 border-black flex items-center justify-center font-black text-xs shadow-[2px_2px_0px_0px_#000]">
-                ★
-              </div>
-              <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-950 dark:text-white tracking-tight">
-                Our Alumni Network
-              </h2>
-            </div>
-            <span className="text-xs font-display font-black px-4 py-1.5 bg-[#FFD166] text-slate-950 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_#000]">
-              ✦ Legacy & Mentorship
-            </span>
-          </div>
-
-          {/* Alumni Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {alumniMembers.map((alumnus) => (
-              <div
-                key={alumnus.id}
-                className="bg-white dark:bg-slate-900 rounded-[32px] border-4 border-black dark:border-white p-6 shadow-[6px_6px_0px_0px_#000] dark:shadow-[6px_6px_0px_0px_#fff] flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300 group space-y-5"
-              >
-                <div className="space-y-4">
-                  {/* Photo & Batch Tag */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-2xl border-3 border-black overflow-hidden bg-slate-100 shrink-0 shadow-[2px_2px_0px_0px_#000]">
-                      <img
-                        src={alumnus.image}
-                        alt={alumnus.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                      />
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+                {/* Section Header with Yellow Star Icon */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6 rounded-full bg-[#fde047] border-2 border-black flex items-center justify-center font-black text-xs shadow-[2px_2px_0px_0px_#000]">
+                      ★
                     </div>
-                    <div>
-                      <span className="text-[10px] font-display font-black px-2.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full border border-black inline-block mb-1">
-                        {alumnus.batch}
-                      </span>
-                      <h4 className="font-display font-black text-lg text-slate-950 dark:text-white leading-snug">
-                        {alumnus.name}
-                      </h4>
-                    </div>
+                    <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-950 dark:text-white tracking-tight">
+                      Our Alumni Network
+                    </h2>
                   </div>
-
-                  {/* Former Role & Current Venture */}
-                  <div className="space-y-2 pt-2 border-t-2 border-dashed border-slate-200 dark:border-slate-800 font-body text-xs">
-                    <div>
-                      <span className="text-[10px] uppercase font-display font-black text-slate-400">Past Role:</span>
-                      <p className="font-bold text-slate-700 dark:text-slate-300">{alumnus.formerRole}</p>
-                    </div>
-                    <div>
-                      <span className="text-[10px] uppercase font-display font-black text-primary">Now At:</span>
-                      <p className="font-bold text-slate-900 dark:text-white">{alumnus.currentRole}, <span className="font-black text-secondary">{alumnus.company}</span></p>
-                    </div>
-                  </div>
+                  <span className="text-xs font-display font-black px-4 py-1.5 bg-[#FFD166] text-slate-950 rounded-full border-2 border-black shadow-[2px_2px_0px_0px_#000]">
+                    ✦ Legacy & Mentorship
+                  </span>
                 </div>
 
-                {/* Connect Action */}
-                <button className="w-full py-2.5 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 text-slate-900 dark:text-white font-display font-black text-xs flex items-center justify-center gap-2 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] active:translate-y-0.5 transition-all">
-                  <BsLinkedin className="w-3.5 h-3.5 text-[#0077B5]" /> Connect on LinkedIn
-                </button>
+                {/* Alumni Cards Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {alumniMembers.map((alumnus) => (
+                    <div
+                      key={alumnus.id}
+                      className="bg-white dark:bg-slate-900 rounded-[32px] border-4 border-black dark:border-white p-6 shadow-[6px_6px_0px_0px_#000] dark:shadow-[6px_6px_0px_0px_#fff] flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300 group space-y-5"
+                    >
+                      <div className="space-y-4">
+                        {/* Photo & Batch Tag */}
+                        <div className="flex items-center gap-4">
+                          <div className="w-16 h-16 rounded-2xl border-3 border-black overflow-hidden bg-slate-100 shrink-0 shadow-[2px_2px_0px_0px_#000]">
+                            <img
+                              src={alumnus.image}
+                              alt={alumnus.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                            />
+                          </div>
+                          <div>
+                            <span className="text-[10px] font-display font-black px-2.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-full border border-black inline-block mb-1">
+                              {alumnus.batch}
+                            </span>
+                            <h4 className="font-display font-black text-lg text-slate-950 dark:text-white leading-snug">
+                              {alumnus.name}
+                            </h4>
+                          </div>
+                        </div>
+
+                        {/* Former Role & Current Venture */}
+                        <div className="space-y-2 pt-2 border-t-2 border-dashed border-slate-200 dark:border-slate-800 font-body text-xs">
+                          <div>
+                            <span className="text-[10px] uppercase font-display font-black text-slate-400">Past Role:</span>
+                            <p className="font-bold text-slate-700 dark:text-slate-300">{alumnus.formerRole}</p>
+                          </div>
+                          <div>
+                            <span className="text-[10px] uppercase font-display font-black text-primary">Now At:</span>
+                            <p className="font-bold text-slate-900 dark:text-white">{alumnus.currentRole}, <span className="font-black text-secondary">{alumnus.company}</span></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Connect Action */}
+                      <button className="w-full py-2.5 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 text-slate-900 dark:text-white font-display font-black text-xs flex items-center justify-center gap-2 border-2 border-black dark:border-white shadow-[2px_2px_0px_0px_#000] dark:shadow-[2px_2px_0px_0px_#fff] active:translate-y-0.5 transition-all">
+                        <BsLinkedin className="w-3.5 h-3.5 text-[#0077B5]" /> Connect on LinkedIn
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
+            </section>
           </div>
-        </div>
-      </section>
+        )}
+      </div>
     </div>
   );
 }
-
-
